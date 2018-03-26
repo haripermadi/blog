@@ -20,7 +20,7 @@ export default {
   max-height: 500px;
 }
 .jumbotron-fluid {
-  background-image: url('https://static.pexels.com/photos/433452/pexels-photo-433452.jpeg');
+  background-image: url('../assets/image1.jpeg');
   background-size: 100% 500px;
   background-repeat: no-repeat;
 }
