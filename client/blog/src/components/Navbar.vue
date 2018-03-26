@@ -1,25 +1,22 @@
 <template>
 <div>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-    <a class="navbar-brand" href="#">Blog</a>
+  <nav class="navbar navbar-expand-lg navbar-light" >
+    <a class="navbar-brand" href="#">LifeLog</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav mr-auto" id="mainnav">
         <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
         </li>
         <li class="nav-item" v-if="userId == null"><a class="nav-link" href="" data-toggle="modal" data-target="#signInModal">Sign In</a></li>
         <li class="nav-item" v-if="userId == null"><a class="nav-link" href="" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
         <li class="nav-item" v-if="userId != null">
           <a class="nav-link" href="" @click="logOutButtonClick" >Sign Out</a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="" data-toggle="modal" data-target="#addArticleModal">Add Article</a></li>
+        <li class="nav-item" v-if="userId != null"><a class="nav-link" href="" data-toggle="modal" data-target="#addArticleModal">Add Article</a></li>
       </ul>
     </div>
   </nav>
@@ -113,7 +110,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" @click="createArticle">Submit</button>
+          <button type="button" class="btn btn-primary" @click="createArticle" data-dismiss="modal">Publish</button>
         </div>
       </div>
     </div>
@@ -167,7 +164,7 @@ export default {
         url: 'http://localhost:3000/login/signin',
         data: this.userLogin
       }).then(function (resSignIn) {
-        console.log('resLogin', resSignIn.data.data.id)
+        console.log('resLogin', resSignIn.data)
         localStorage.setItem('token', resSignIn.data.data.token)
         localStorage.setItem('userId', resSignIn.data.data.id)
         location.reload()
@@ -179,7 +176,6 @@ export default {
     logOutButtonClick: function () {
       console.log('user log out')
       localStorage.clear()
-      // location.reload();
     },
     createArticle: function () {
       console.log('add article')
@@ -189,6 +185,7 @@ export default {
         data: this.newArticle
       }).then(response => {
         console.log('respon add', response)
+        location.reload()
       }).catch(err => {
         console.log(err)
       })
@@ -198,5 +195,8 @@ export default {
 </script>
 
 <style>
+.navbar {
+  background-image: linear-gradient(139deg, #00C4CC 0%, #7D2AE8 100%)
+}
 
 </style>

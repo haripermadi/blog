@@ -61,7 +61,6 @@ module.exports={
               id:dataUser._id,
               name:dataUser.name,
               email:dataUser.email,
-              fbId :null,
               token :token
             }
           })
@@ -77,63 +76,6 @@ module.exports={
       }
     })
 
-  },
-  signInFb : (req,res)=>{
-    FB.api('me',{fields:['id','name','email'],access_token:req.headers.fb_token},(userFbToken)=>{
-      if(userFbToken){
-        User.findOne({
-          email:userFbToken.email,
-          // fbId: userFbToken.id
-        })
-        .exec()
-        .then(user=>{
-          if(user == null){
-            User.create({
-              name:userFbToken.name,
-              email:userFbToken.email,
-              password: null,
-              fbId : userFbToken.id
-            },(err,newUser)=>{
-              if(!err){
-                let token = jwt.sign({id:newUser._id},process.env.SECRET)
-                res.status(200).json({
-                message:"login with facebook success",
-                data: ({
-                  _id: newUser._id,
-                  fbId : newUser.fbId,
-                  name:newUser.name,
-                  email: newUser.email,
-                  token:token
-                })
-              })
-              }else{
-                res.status(400).json({
-                  message:"something wrong"
-                })
-              }
-            })
-          }else{
-            let token = jwt.sign({id:user._id},process.env.SECRET)
-            res.status(200).json({
-              message:"login with facebook success",
-              data: ({
-                _id: user._id,
-                fbId : user.fbId,
-                name:user.name,
-                email: user.email,
-                token:token
-              })
-            })
-          }
-
-        })
-      }else{
-        res.status(500).json({
-          message : `Failed to connect with facebook !`,
-          data    : {}
-        })
-      }
-    })
   },
   testJwt : (req,res)=>{
     res.status(200).json({

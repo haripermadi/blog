@@ -1,10 +1,10 @@
 <template>
   <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4">Blog</h1>
-    <p class="lead">You don't have to live your life feeling bad about your past. <br>
+    <h1 class="display-4">LifeLog</h1>
+    <h2 class="lead">You don't have to live your life feeling bad about your past. <br>
     You can let it go and finally find peace.
-    </p>
+    </h2>
   </div>
 </div>
 </template>
@@ -18,6 +18,19 @@ export default {
 <style>
 #myCarousel img {
   max-height: 500px;
+}
+.jumbotron-fluid {
+  background-image: url('https://static.pexels.com/photos/433452/pexels-photo-433452.jpeg');
+  background-size: 100% 500px;
+  background-repeat: no-repeat;
+}
+
+.lead {
+  color: navy;
+  font-weight: bold;
+}
+h1{
+  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 </style>

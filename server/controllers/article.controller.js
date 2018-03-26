@@ -4,6 +4,7 @@ module.exports = {
   showArticle: (req,res)=>{
     console.log('masuk')
     Article.find()
+    .sort({createdAt:'desc'})
     .exec()
     .then(listArticle=>{
       console.log('masuk sini')
@@ -55,6 +56,7 @@ module.exports = {
     })
   },
   updateArticle:(req,res)=>{
+    console.log(req.params,"body==",req.body)
     let id = {_id:req.params.id}
     let input = {
       title:req.body.title,
