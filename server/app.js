@@ -4,15 +4,20 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors')
+require('dotenv').load();
+
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/blog')
 // const chaiHttp = require('chai-http');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var articles = require('./routes/article');
+const article = require('./routes/article');
+const login =require('./routes/login')
 
 var app = express();
+app.use(cors())
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -37,7 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/articles', articles);
+app.use('/article', article);
+app.use('/login', login)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -54,7 +60,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });
 
 module.exports = app;

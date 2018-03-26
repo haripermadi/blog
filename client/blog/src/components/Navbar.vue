@@ -1,40 +1,199 @@
 <template>
-  <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Blog</a>
-    </div>
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+    <a class="navbar-brand" href="#">Blog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><router-link to="/">Home</router-link><span class="sr-only">(current)</span></li>
-        <li><router-link to="content">Blog</router-link></li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item" v-if="userId == null"><a class="nav-link" href="" data-toggle="modal" data-target="#signInModal">Sign In</a></li>
+        <li class="nav-item" v-if="userId == null"><a class="nav-link" href="" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
+        <li class="nav-item" v-if="userId != null">
+          <a class="nav-link" href="" @click="logOutButtonClick" >Sign Out</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="" data-toggle="modal" data-target="#addArticleModal">Add Article</a></li>
       </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+    </div>
+  </nav>
+  <!-- Modal sign in-->
+  <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Sign In</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <button type="submit" class="btn btn-default">Search</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Sign In</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="email" class="col-form-label">Email:</label>
+              <input type="email" class="form-control" v-model="userLogin.email">
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" v-model="userLogin.password">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" @click="loginUser">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Modal sign uo-->
+  <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Sign Up</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" v-model="objUser.name">
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-form-label">Email:</label>
+              <input type="email" class="form-control" v-model="objUser.email">
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" v-model="objUser.password">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" @click="createUser">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal add article-->
+  <div class="modal fade" id="addArticleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add new article</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="name" class="col-form-label">Title:</label>
+              <input type="text" class="form-control" v-model="newArticle.title">
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-form-label">Author:</label>
+              <input type="text" class="form-control" v-model="newArticle.author">
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-form-label">Content:</label>
+              <textarea  class="form-control" v-model="newArticle.content"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" @click="createArticle">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  data () {
+    return {
+      userLogin: {
+        email: '',
+        password: ''
+      },
+      token: localStorage.getItem('token'),
+      userId: localStorage.getItem('userId'),
+      objUser: {
+        name: '',
+        email: '',
+        password: ''
+      },
+      newArticle: {
+        title: '',
+        author: '',
+        content: ''
+      }
+    }
+  },
+  methods: {
+    createUser: function () {
+      console.log('ini form input===', this.objUser)
+      // alert(this.objUser)
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/login/signup',
+        data: this.objUser
+      }).then(function (resSignUp) {
+        console.log('resLogin', JSON.stringify(resSignUp))
+        location.reload()
+      }).catch(function (error) {
+        console.log(error)
+      })
+    },
+    loginUser: function () {
+      console.log('login user===', this.userLogin)
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/login/signin',
+        data: this.userLogin
+      }).then(function (resSignIn) {
+        console.log('resLogin', resSignIn.data.data.id)
+        localStorage.setItem('token', resSignIn.data.data.token)
+        localStorage.setItem('userId', resSignIn.data.data.id)
+        location.reload()
+      }).catch(function (error) {
+        alert('wrong email/password')
+        console.log(error)
+      })
+    },
+    logOutButtonClick: function () {
+      console.log('user log out')
+      localStorage.clear()
+      // location.reload();
+    },
+    createArticle: function () {
+      console.log('add article')
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/article',
+        data: this.newArticle
+      }).then(response => {
+        console.log('respon add', response)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 

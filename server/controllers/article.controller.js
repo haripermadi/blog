@@ -19,18 +19,21 @@ module.exports = {
   },
   addArticle:(req,res)=>{
     console.log('masuk add article')
-    Article.create({
+    let input = {
       title:req.body.title,
+      author: req.body.author,
       content:req.body.content
-    },(err,newArticle)=>{
-      if(err){
-        res.status(404).json({
-          message:'failed adding article'
-        })
-      }else{
+    }
+    let article = new Article(input)
+    article.save().then(newArticle=>{
+      if(newArticle){
         res.status(201).json({
           message:'success adding article',
           newArticle
+        })
+      }else{
+        res.status(404).json({
+          message:'failed adding article'
         })
       }
     })
@@ -53,7 +56,12 @@ module.exports = {
   },
   updateArticle:(req,res)=>{
     let id = {_id:req.params.id}
-    Article.findByIdAndUpdate(id,req.body,(err)=>{
+    let input = {
+      title:req.body.title,
+      author: req.body.author,
+      content:req.body.content
+    }
+    Article.findByIdAndUpdate(id,input,(err)=>{
       if(err){
         res.status(400).json({
           message:"error",
