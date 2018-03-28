@@ -8,7 +8,8 @@ var cors = require('cors')
 require('dotenv').load();
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/blog')
+// mongoose.connect('mongodb://localhost:27017/blog')
+mongoose.connect('mongodb://blog2018:blog123@ds127139.mlab.com:27139/blog2018')
 // const chaiHttp = require('chai-http');
 
 var index = require('./routes/index');
