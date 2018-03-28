@@ -81,7 +81,7 @@ export default {
       console.log('removed', article)
       axios({
         method: 'delete',
-        url: `http://localhost:3000/article/${article._id}`,
+        url: `http://api-blog.haripermadi.com/article/${article._id}`,
         headers: {
           token: localStorage.getItem('token')
         }
@@ -96,7 +96,7 @@ export default {
       console.log('ediiit', data)
       axios({
         method: 'put',
-        url: `http://localhost:3000/article/${data._id}`,
+        url: `http://api-blog.haripermadi.com/article/${data._id}`,
         data: data
       }).then(function (response) {
         console.log(response)

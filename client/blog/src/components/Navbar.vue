@@ -148,7 +148,7 @@ export default {
       // alert(this.objUser)
       axios({
         method: 'post',
-        url: 'http://localhost:3000/login/signup',
+        url: 'http://api-blog.haripermadi.com/login/signup',
         data: this.objUser
       }).then(function (resSignUp) {
         console.log('resLogin', JSON.stringify(resSignUp))
@@ -161,7 +161,7 @@ export default {
       console.log('login user===', this.userLogin)
       axios({
         method: 'post',
-        url: 'http://localhost:3000/login/signin',
+        url: 'http://api-blog.haripermadi.com/login/signin',
         data: this.userLogin
       }).then(function (resSignIn) {
         console.log('resLogin', resSignIn.data)
@@ -181,7 +181,7 @@ export default {
       console.log('add article')
       axios({
         method: 'post',
-        url: 'http://localhost:3000/article',
+        url: 'http://api-blog.haripermadi.com/article',
         data: this.newArticle
       }).then(response => {
         console.log('respon add', response)

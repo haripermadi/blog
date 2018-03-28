@@ -7,7 +7,7 @@ import axios from 'axios'
 
 let host = 'http://localhost:3000'
 if (document.location.hostname !== 'localhost') {
-  host = 'http://lifeblog.haripermadi.com'
+  host = 'http://api-blog.haripermadi.com/'
 }
 Vue.prototype.$http = axios.create({
   baseURL: host

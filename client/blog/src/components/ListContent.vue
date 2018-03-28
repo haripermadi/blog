@@ -36,7 +36,7 @@ export default {
       console.log('ini id user onload', this.userId)
       axios({
         method: 'get',
-        url: `http://localhost:3000/article`,
+        url: `http://api-blog.haripermadi.com/article`,
         headers: {
           token: this.token
         }
