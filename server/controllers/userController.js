@@ -54,7 +54,7 @@ module.exports={
         console.log("ini data user===",dataUser)
         let checkPass = bcrypt.compareSync(req.body.password,dataUser.password)
         if(checkPass){
-          let token = jwt.sign({id:dataUser._id,email:dataUser.email},process.env.SECRET)
+          let token = jwt.sign({id:dataUser._id,email:dataUser.email},'secret')
           res.status(200).json({
             message:"login success",
             data:{
